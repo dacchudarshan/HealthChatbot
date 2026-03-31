@@ -1,5 +1,3 @@
-# HealthChatbot
-
 # Health Chatbot - Medical AI Assistant 🏥🤖
 
 A comprehensive Flask-based healthcare application that provides medical consultation, doctor appointment booking, X-ray bone fracture detection, and AI-powered medical chatbot assistance.
