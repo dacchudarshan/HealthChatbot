@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEALTH CARE CHATBOT</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <style>
+        .feature-card {
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #0d6efd;
+        }
+        
+        .diagram-container {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .floating-chatbot-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        #voiceStatus {
+            display: none;
+        }
+        
+        .pulse {
+            animation: pulse-animation 1.5s infinite;
+        }
+        
+        @keyframes pulse-animation {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex flex-column min-vh-100">
+        <nav class="navbar navbar-expand-lg bg-primary border-primary border-bottom">
+            <div class="container-fluid my-1 mx-5">
+                <a class="navbar-brand text-light fw-bold fs-5" href="#">
+                    <i class="fa-solid fa-robot"></i> HEALTH CARE CHATBOT</a>
+                <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars text-light"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-white fw-bold" href="/doctors">Doctors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white fw-bold" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container my-5">
+            <!-- Hero Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6">
+                    <h1 class="display-4 fw-bold mb-4">Medical Chatbot with NLP & BERT</h1>
+                    <p class="lead mb-4">An intelligent healthcare assistant powered by advanced natural language processing and deep learning technologies.</p>
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+                        <i class="fa-solid fa-comment-dots"></i> Try the Chatbot
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <img src="https://img.freepik.com/free-vector/medical-chatbot-concept-illustration_114360-10032.jpg" 
+                         alt="Medical Chatbot Illustration" class="img-fluid rounded">
+                </div>
+            </div>
+            
+            <!-- About the Project -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-5">
+                            <h2 class="card-title text-center mb-4">About the Project</h2>
+                            <p class="card-text">
+                                This healthcare chatbot is designed to provide accurate medical information and preliminary 
+                                advice regarding bone-related conditions and fractures. Leveraging state-of-the-art NLP 
+                                techniques and BERT-based models, the system understands complex medical queries and 
+                                provides contextually relevant responses.
+                            </p>
+                            <p class="card-text">
+                                The chatbot has been trained on a vast corpus of medical literature, clinical guidelines, 
+                                and patient-doctor interactions to ensure the information provided is both accurate and 
+                                clinically relevant. It serves as a first point of contact for patients seeking information 
+                                about bone health, symptoms, and treatment options.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Technology Stack -->
+            <h2 class="text-center mb-5">Technology Stack</h2>
+            <div class="row mb-5">
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card text-center p-4 h-100">
+                        <i class="fas fa-brain tech-icon"></i>
+                        <h3>BERT Model</h3>
+                        <p>Bidirectional Encoder Representations from Transformers for understanding medical context and generating accurate responses.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card text-center p-4 h-100">
+                        <i class="fas fa-language tech-icon"></i>
+                        <h3>NLP Pipeline</h3>
+                        <p>Advanced natural language processing for intent recognition, entity extraction, and context understanding.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card text-center p-4 h-100">
+                        <i class="fas fa-database tech-icon"></i>
+                        <h3>Medical Knowledge Base</h3>
+                        <p>Curated database of ill conditions, symptoms, treatments, and rehabilitation protocols.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- How It Works -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body p-5">
+                            <h2 class="card-title text-center mb-4">How the Chatbot Works</h2>
+                            <div class="diagram-container text-center mb-4">
+                                <img src="https://www.researchgate.net/publication/344418283/figure/fig1/AS:940460800589824@1601470420255/Chatbot-system-architecture.png" 
+                                     alt="Chatbot Architecture" class="img-fluid rounded" style="max-height: 400px;">
+                            </div>
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item border-0">
+                                    <strong>User Input:</strong> The patient asks a question about bone health or symptoms
+                                </li>
+                                <li class="list-group-item border-0">
+                                    <strong>Intent Recognition:</strong> NLP identifies the purpose of the question
+                                </li>
+                                <li class="list-group-item border-0">
+                                    <strong>Context Understanding:</strong> BERT model analyzes the context and medical relevance
+                                </li>
+                                <li class="list-group-item border-0">
+                                    <strong>Knowledge Retrieval:</strong> System fetches relevant information from medical databases
+                                </li>
+                                <li class="list-group-item border-0">
+                                    <strong>Response Generation:</strong> The chatbot formulates a human-like, clinically appropriate response
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Features -->
+            <h2 class="text-center mb-5">Key Features</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <h3><i class="fas fa-check-circle text-primary me-2"></i> Symptom Analysis</h3>
+                            <p>Helps users understand potential bone-related conditions based on described symptoms.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <h3><i class="fas fa-book-medical text-primary me-2"></i> Treatment Information</h3>
+                            <p>Provides details about common treatments, medications, and rehabilitation exercises.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <h3><i class="fas fa-exclamation-triangle text-primary me-2"></i> Emergency Guidance</h3>
+                            <p>Identifies potential emergency situations and advises immediate actions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <h3><i class="fas fa-user-md text-primary me-2"></i> Doctor Recommendations</h3>
+                            <p>Suggests when professional medical consultation is necessary.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="bg-dark text-white py-4 mt-auto">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Healthcare Chatbot</h5>
+                        <p>An AI-powered assistant for bone health information and preliminary medical advice.</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white">Home</a></li>
+                            <li><a href="/doctors" class="text-white">Doctors</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Contact</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-envelope me-2"></i> support@healthcarechatbot.com</li>
+                            <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <small>&copy; 2023 Healthcare Chatbot. All rights reserved.</small>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Floating Chatbot Button -->
+    <button class="btn btn-primary rounded-circle floating-chatbot-button" type="button" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <!-- Chatbot Modal -->
+    <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="chatbotModalLabel"><i class="fa-solid fa-robot"></i> Medical Chatbot</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="chatbox" style="height: 300px; overflow-y: scroll;">
+                    <!-- Chat messages will appear here -->
+                    <div class="mb-2">
+                        <strong>Bot:</strong> Hello! I am a medical chatbot specializing in humans. How can I help you today? You can ask me about:
+                        <ul>
+                            <li>Illness symptoms</li>
+                            <li>Treatment options</li>
+                            <li>Recovery timelines</li>
+                            <li>Preventive care</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" id="startListening" type="button">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <input type="text" id="chatInput" class="form-control" placeholder="Ask a question about bones...">
+                        <button class="btn btn-primary" id="sendChat">Send</button>
+                    </div>
+                    <div id="voiceStatus" class="small text-muted mt-2">
+                        <i class="fas fa-circle text-danger pulse"></i> Listening...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script>
+        // Chatbot functionality with voice input
+        $(document).ready(function() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            let recognition;
+            let isListening = false;
+            
+            // Initialize speech recognition if available
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    $('#chatInput').val(transcript);
+                    $('#voiceStatus').hide();
+                    isListening = false;
+                    $('#startListening').html('<i class="fas fa-microphone"></i>');
+                    // Auto-send the voice input
+                    sendMessage();
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error', event.error);
+                    $('#voiceStatus').hide();
+                    isListening = false;
+                    $('#startListening').html('<i class="fas fa-microphone"></i>');
+                    $('#chatbox').append('<div class="mb-2 text-danger"><strong>System:</strong> Voice input failed. Please try again or type your message.</div>');
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                };
+                
+                recognition.onend = function() {
+                    if (isListening) {
+                        recognition.start(); // Restart if we're still supposed to be listening
+                    }
+                };
+            } else {
+                $('#startListening').prop('disabled', true).attr('title', 'Voice input not supported in your browser');
+                $('#voiceStatus').html('<i class="fas fa-exclamation-circle text-warning"></i> Voice input not supported').show();
+                setTimeout(() => $('#voiceStatus').hide(), 3000);
+            }
+            
+            // Voice input button handler
+            $('#startListening').click(function() {
+                if (!SpeechRecognition) {
+                    $('#chatbox').append('<div class="mb-2 text-warning"><strong>System:</strong> Voice input is not supported in your browser. Please use text input.</div>');
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                    return;
+                }
+                
+                if (isListening) {
+                    recognition.stop();
+                    isListening = false;
+                    $('#voiceStatus').hide();
+                    $(this).html('<i class="fas fa-microphone"></i>');
+                } else {
+                    try {
+                        recognition.start();
+                        isListening = true;
+                        $('#voiceStatus').show();
+                        $(this).html('<i class="fas fa-microphone-slash"></i>');
+                        $('#chatInput').val('');
+                    } catch (e) {
+                        console.error('Speech recognition start failed:', e);
+                        $('#chatbox').append('<div class="mb-2 text-danger"><strong>System:</strong> Could not start voice input. Please check microphone permissions.</div>');
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                    }
+                }
+            });
+            
+            // Send message handler (both for text and voice)
+            $('#sendChat').click(function() {
+                sendMessage();
+            });
+
+            $('#chatInput').keypress(function(event) {
+                if (event.which == 13) { // Enter key pressed
+                    sendMessage();
+                }
+            });
+
+            function sendMessage() {
+                const message = $('#chatInput').val();
+                if (message.trim() === '') return;
+
+                // Display user message
+                $('#chatbox').append('<div class="mb-2 text-end"><strong>You:</strong> ' + message + '</div>');
+                $('#chatInput').val('');
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight); // Scroll to bottom
+
+                // Send message to backend
+                $.ajax({
+                    url: '/chatbot',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ message: message }),
+                    success: function(data) {
+                        // Check if response contains a redirect
+                        if (data.redirect) {
+                            // Format and display bot response
+                            let botResponse = data.response;
+                            botResponse = botResponse.replace(/\n/g, '<br>');
+                            botResponse = botResponse.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                            $('#chatbox').append('<div class="mb-2"><strong>Bot:</strong> ' + botResponse + '</div>');
+                            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                            
+                            // Show the message for 2 seconds before redirecting
+                            setTimeout(function() {
+                                window.location.href = data.redirect;
+                            }, 2000);
+                        } 
+                        // Normal response handling
+                        else if (data.response) {
+                            let botResponse = data.response;
+                            botResponse = botResponse.replace(/\n/g, '<br>');
+                            botResponse = botResponse.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                            $('#chatbox').append('<div class="mb-2"><strong>Bot:</strong> ' + botResponse + '</div>');
+                            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                        }
+                    },
+                    error: function(error) {
+                        let errorMessage = 'Could not get response from chatbot.';
+                        if (error.responseJSON && error.responseJSON.error) {
+                            errorMessage = 'Bot Error: ' + error.responseJSON.error;
+                        } else {
+                            errorMessage = 'Bot Error: ' + error.statusText;
+                        }
+                        $('#chatbox').append('<div class="mb-2 text-danger">' + errorMessage + '</div>');
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                        console.error("Error calling chatbot API:", error);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

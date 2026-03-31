@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        /* Keep any relevant styles from enquiry.html if needed, or add specific styles for the table */
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .result-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex flex-column min-vh-100">
+        <nav class="navbar navbar-expand-lg bg-primary border-primary border-bottom">
+            <div class="container-fluid my-1 mx-5">
+                <a class="navbar-brand text-light fw-bold fs-5" href="#">
+                    <i class="fa-solid fa-x-ray"></i> HEALTH CARE CHATBOT</a>
+                <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars text-light"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
+                         <li class="nav-item">
+                            <a class="nav-link text-decoration-underline link-offset-2 active text-light fw-bold"
+                                aria-current="page" href="{{ url_for('doctor_appointments') }}">My Appointments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white fw-bold" href="{{ url_for('doctor_logout') }}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container bg-white my-4">
+            <div class="d-flex mt-5 mb-3">
+                <h3 class="text-primary-emphasis link-offset-1 text-decoration-underline flex-grow-1 flex-md-grow-0">
+                    My Appointments
+                </h3>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="position-fixed top-0 toastae start-50 translate-middle-x p-3" style="z-index: 11">
+                            <div id="liveToast{{ loop.index }}" class="toast bg-{{ category }} bg-opacity-75 hide" role="alert" aria-live="assertive"
+                                aria-atomic="true">
+                                <div class="d-flex">
+                                    <div class="toast-body ms-auto text-white">
+                                        {{ message }} !
+                                    </div>
+                                    <button type="button" class="btn-close shadow-none btn-close-white me-2 m-auto"
+                                        data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="row justify-content-center mb-3 mt-4">
+                <div class="col-md-12">
+                    {% if doctor_appointments %}
+                    <table id="doctorAppointmentsTable" class="display result-card">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appointment in doctor_appointments %}
+                            <tr>
+                                <td>{{ appointment[6] }}</td> {# Assuming user name is the 7th column in the joined result #}
+                                <td>{{ appointment[3] }}</td>
+                                <td>{{ appointment[4] }}</td>
+                                <td>{{ appointment[5] }}</td>
+                                <td>
+                                    {% if appointment[5] == 'pending' %}
+                                        <form action="{{ url_for('update_appointment_status', appointment_id=appointment[0]) }}" method="POST" style="display:inline;">
+                                            <input type="hidden" name="status" value="accepted">
+                                            <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                                        </form>
+                                        <form action="{{ url_for('update_appointment_status', appointment_id=appointment[0]) }}" method="POST" style="display:inline;">
+                                            <input type="hidden" name="status" value="rejected">
+                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                        </form>
+                                    {% else %}
+                                        {{ appointment[5] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>You have no appointments.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#doctorAppointmentsTable').DataTable();
+
+            // Keep toast script if needed for flash messages
+            $('.toast').toast('show');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+</head>
+
+<body>
+
+    <div class="d-flex flex-column min-vh-100" style="background-color: #ececec !important;">
+ 
+
+        {% if error %}
+        <div class="position-fixed top-0 toastae start-50 translate-middle-x p-3" style="z-index: 11">
+            <div id="liveToast2" class="toast bg-danger bg-opacity-75 hide" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body ms-auto text-white">
+                        {{ error }} !
+                    </div>
+                    <button type="button" class="btn-close shadow-none btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
+        <div class="container py-4 my-auto">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-md-12">
+                    <div class="card rounded text-black shadow-sm border border-dark-subtle bg-white">
+
+                        <div class="row g-0">
+
+                            <!-- left column -->
+
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div class="card-body p-md-5 py-4 mx-md-4 mx-2">
+
+                                    <div class="text-center"> 
+                                        <h3 class=" mb-5 text-decoration-underline link-offset-2 text-dark ">Login</h3>
+                                    </div>
+
+                                    <form method="post" id="userloginform">
+ 
+                                    <div class="input-group mb-4 position-relative">
+                                            <span class="input-group-text border-dark" id="basic-email"><i class="fa-solid fa-user"></i></span>
+                                            <input type="text" name="email" id="email" class="form-control shadow-none border-dark bg-white" placeholder="Email" aria-label="Email" aria-describedby="basic-email">
+                                            <div class="invalid-tooltip rounded-3 alertemail">
+                                                * Enter Email
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group mb-4 position-relative">
+                                            <span class="input-group-text border-dark" id="basic-password"><i class="fa-solid fa-key"></i></span>
+                                            <input type="password" name="password" id="password" class="form-control shadow-none border-dark bg-white" placeholder="Password" aria-label="Password" aria-describedby="basic-password">
+                                            <span class="toggle-password" onclick="togglePassword()">
+                                                <i class="fas fa-eye"></i>
+                                            </span>
+                                            <div class="invalid-tooltip rounded-3 ">
+                                                * Enter Password
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center pt-1 pb-1">
+                                            <button class="btn btn-outline-dark  w-100 shadow-none" type="submit">Log
+                                                in</button>
+                                        </div>
+
+                                        <div class="text-center gap-2 pt-4 mb-3">
+                                            <a href="/" class="text-decoration-none btn btn-sm rounded-2 btn-dark ">
+                                                <i class="fa-solid fa-house text-white"></i>
+                                            </a>
+                                            |
+                                            <div class="d-inline">
+                                                Don't have an account?
+                                                <a href="register" class="text-decoration-none text-white shadow-none rounded-2 btn btn-sm btn-dark ">
+                                                    Register
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-md-6 d-none d-md-flex rounded-end">
+                                <img src="../static/images/auth.jpg" class="img-fluid" style="object-fit: cover;" alt="logo">
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.js"></script> 
+    
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.querySelector('.toggle-password i');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+</script>
+
+<script>
+    $(function() {
+
+        $('.toast').toast('show');
+
+
+        $("#userloginform").on("submit", function(e) {
+            debugger;
+
+            var email = $("#email").val()
+            var password = $("#password").val()
+            var testemail = new RegExp("[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
+            var testphone = new RegExp("^[6-9][0-9]{9}$");
+            var testaadhar = new RegExp("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$");
+            var testusn = new RegExp("(?=(.*[a-zA-Z])(?=.*[0-9]))");
+
+         
+            if (email != "") {
+                if (!testemail.test(email)) {
+                    $(".alertemail").text("* Enter Valid Email");
+                    $("#email").addClass("is-invalid");
+                    e.preventDefault();
+                } else {
+                    $("#email").removeClass("is-invalid");
+                }
+            } else {
+                $(".alertemail").text("* Enter Email");
+                $("#email").addClass("is-invalid");
+                e.preventDefault();
+            }
+
+
+            if (password != "") {
+                $("#password").removeClass("is-invalid");
+            } else {
+                $("#password").addClass("is-invalid");
+                e.preventDefault();
+            } 
+
+        })
+
+        $("input,textarea,select").on("keydown change", function() {
+            $(this).removeClass("is-invalid")
+        })
+
+    })
+</script>
+
+</body>
+
+</html>
